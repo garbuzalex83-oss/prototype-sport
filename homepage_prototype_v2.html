@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Прототип главной страницы — Sportlandia</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --dark: #111318;
+    --card: #16191f;
+    --border: #1e2229;
+    --accent: #00e5a0;
+    --accent2: #ff3b3b;
+    --accent3: #ffc107;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --white: #ffffff;
+    --gradient: linear-gradient(135deg, #00e5a0 0%, #00b8d4 100%);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--black);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  h1, h2, h3 { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1.5px; }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    letter-spacing: 3px;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .section-sub {
+    color: var(--muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+
+  /* ─── LAYOUT ─── */
+  .page-wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+  .section { padding: 40px 0; border-bottom: 1px solid var(--border); }
+
+  /* ─── LABELS ─── */
+  .block-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,229,160,0.12);
+    border: 1px solid rgba(0,229,160,0.3);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+  .block-label.red { background: rgba(255,59,59,0.12); border-color: rgba(255,59,59,0.3); color: var(--accent2); }
+  .block-label.yellow { background: rgba(255,193,7,0.12); border-color: rgba(255,193,7,0.3); color: var(--accent3); }
+
+  .note-box {
+    background: rgba(0,229,160,0.05);
+    border-left: 3px solid var(--accent);
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 16px;
+  }
+  .note-box span { color: var(--accent); font-weight: 700; }
+
+  /* ════════════════════════════════════
+     SECTION 0: PAGE TITLE
+  ════════════════════════════════════ */
+  .doc-header {
+    background: var(--dark);
+    border-bottom: 2px solid var(--accent);
+    padding: 32px 0;
+    margin-bottom: 0;
+  }
+  .doc-header-inner { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+  .doc-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--black);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .doc-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; letter-spacing: 4px; color: var(--white); line-height: 1; }
+  .doc-title span { color: var(--accent); }
+  .doc-meta { color: var(--muted); font-size: 12px; margin-top: 10px; display: flex; gap: 24px; flex-wrap: wrap; }
+  .doc-meta b { color: var(--text); }
+
+  /* ════════════════════════════════════
+     SECTION 1: СВОДНАЯ ТАБЛИЦА
+  ════════════════════════════════════ */
+  .table-wrap { overflow-x: auto; margin-top: 20px; border-radius: 10px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; min-width: 780px; }
+  thead tr { background: #0d1117; }
+  thead th {
+    padding: 12px 10px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  thead th:first-child { text-align: left; color: var(--text); min-width: 200px; }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody td { padding: 10px 10px; font-size: 12px; text-align: center; vertical-align: middle; }
+  tbody td:first-child { text-align: left; font-weight: 600; color: var(--text); padding-left: 14px; }
+  .check { color: var(--accent); font-size: 16px; }
+  .cross { color: #2a2f3a; font-size: 14px; }
+  .check-new { color: var(--accent3); font-size: 14px; font-weight: 800; }
+  .priority-high { background: rgba(0,229,160,0.06); }
+  .priority-med { background: rgba(255,193,7,0.04); }
+  .col-new { background: rgba(0,229,160,0.04); }
+
+  th.col-new { color: var(--accent) !important; }
+
+  /* ════════════════════════════════════
+     SECTION 2: ПРОТОТИП
+  ════════════════════════════════════ */
+
+  /* — UTILITY BAR — */
+  .proto-utility {
+    background: #0d1117;
+    border-bottom: 1px solid var(--border);
+    padding: 8px 0;
+  }
+  .proto-utility-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 16px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+  }
+  .util-items { display: flex; gap: 20px; flex-wrap: wrap; }
+  .util-item { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+  .util-item .icon { color: var(--accent); }
+  .util-lang { display: flex; gap: 8px; }
+  .util-lang span { font-size: 11px; padding: 2px 7px; border: 1px solid var(--border); border-radius: 3px; cursor: pointer; color: var(--muted); }
+  .util-lang span.active { border-color: var(--accent); color: var(--accent); }
+
+  /* — HEADER — */
+  .proto-header {
+    background: var(--dark);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .proto-header-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 16px;
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 20px;
+  }
+  .proto-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 3px; }
+  .proto-logo span { color: var(--accent); }
+  .proto-nav { display: flex; gap: 4px; align-items: center; justify-content: center; flex-wrap: wrap; }
+  .nav-item {
+    padding: 6px 12px; font-size: 12px; font-weight: 600; color: var(--muted);
+    border-radius: 4px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .nav-item:hover, .nav-item.active { color: var(--white); background: rgba(255,255,255,0.05); }
+  .proto-actions { display: flex; gap: 8px; align-items: center; }
+  .search-box {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    border-radius: 6px; padding: 7px 12px; min-width: 180px;
+  }
+  .search-box span { font-size: 12px; color: var(--muted); }
+  .header-icon {
+    width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--border); border-radius: 6px; font-size: 15px; cursor: pointer;
+    background: rgba(255,255,255,0.02); position: relative;
+  }
+  .cart-badge {
+    position: absolute; top: -4px; right: -4px;
+    background: var(--accent2); color: white; font-size: 9px; font-weight: 800;
+    width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  }
+
+  /* — HERO — */
+  .proto-hero {
+    background: linear-gradient(135deg, #0a0f1a 0%, #0d1520 50%, #0a0f1a 100%);
+    padding: 60px 0;
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-bg-accent {
+    position: absolute; top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(ellipse, rgba(0,229,160,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .proto-hero-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 16px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+  }
+  .hero-tag { display: inline-block; background: var(--accent); color: var(--black); font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 2px; letter-spacing: 2px; margin-bottom: 14px; text-transform: uppercase; }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; letter-spacing: 4px; line-height: 0.95; color: var(--white); margin-bottom: 16px; }
+  .hero-title span { color: var(--accent); }
+  .hero-desc { color: var(--muted); font-size: 14px; margin-bottom: 28px; line-height: 1.7; max-width: 380px; }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: var(--black);
+    font-weight: 800; font-size: 13px; padding: 12px 28px;
+    border-radius: 6px; border: none; cursor: pointer; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .btn-ghost {
+    background: transparent; color: var(--text);
+    font-weight: 700; font-size: 13px; padding: 12px 28px;
+    border-radius: 6px; border: 1px solid var(--border); cursor: pointer; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .hero-stats { display: flex; gap: 28px; margin-top: 32px; }
+  .hero-stat { }
+  .hero-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--accent); letter-spacing: 2px; }
+  .hero-stat-label { font-size: 11px; color: var(--muted); }
+  .hero-img-placeholder {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; height: 300px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px; position: relative; overflow: hidden;
+  }
+  .hero-img-placeholder::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(0,229,160,0.05) 0%, transparent 60%);
+  }
+  .hero-img-icon { font-size: 56px; }
+  .hero-img-text { font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+  .hero-slides { display: flex; gap: 6px; margin-top: 24px; justify-content: center; }
+  .hero-slide-dot { width: 28px; height: 4px; border-radius: 2px; background: var(--border); }
+  .hero-slide-dot.active { background: var(--accent); }
+
+  /* — QUICK CATS — */
+  .proto-quick-cats {
+    background: var(--dark);
+    border-bottom: 2px solid var(--border);
+    padding: 18px 0;
+  }
+  .quick-cats-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 16px;
+    display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+  }
+  .quick-cat {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 20px; border-radius: 8px;
+    border: 1px solid var(--border); background: rgba(255,255,255,0.02);
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .quick-cat:hover, .quick-cat.active { border-color: var(--accent); background: rgba(0,229,160,0.08); }
+  .quick-cat-icon { font-size: 18px; }
+  .quick-cat-label { font-size: 12px; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* — PROMO BANNERS — */
+  .promo-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 20px;
+  }
+  .promo-banner {
+    border-radius: 10px; padding: 24px 20px; position: relative; overflow: hidden;
+    min-height: 120px; display: flex; flex-direction: column; justify-content: space-between;
+    cursor: pointer;
+  }
+  .promo-banner.green { background: linear-gradient(135deg, #0d2e23, #0f3d2e); border: 1px solid rgba(0,229,160,0.2); }
+  .promo-banner.red { background: linear-gradient(135deg, #2e0d0d, #3d1010); border: 1px solid rgba(255,59,59,0.2); }
+  .promo-banner.blue { background: linear-gradient(135deg, #0d1a2e, #0f2040); border: 1px solid rgba(0,180,255,0.2); }
+  .promo-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 2px; }
+  .promo-banner.green .promo-title { color: var(--accent); }
+  .promo-banner.red .promo-title { color: #ff7070; }
+  .promo-banner.blue .promo-title { color: #00b4ff; }
+  .promo-desc { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .promo-cta { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 14px; }
+  .promo-banner.green .promo-cta { color: var(--accent); }
+  .promo-banner.red .promo-cta { color: #ff7070; }
+  .promo-banner.blue .promo-cta { color: #00b4ff; }
+
+  /* — PRODUCT GRID — */
+  .product-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 20px;
+  }
+  .product-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden; cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .product-card:hover { border-color: rgba(0,229,160,0.3); }
+  .product-img {
+    background: #1a1f28; height: 100px;
+    display: flex; align-items: center; justify-content: center; font-size: 32px;
+    position: relative;
+  }
+  .product-badge {
+    position: absolute; top: 6px; left: 6px;
+    font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 3px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .badge-new { background: var(--accent); color: var(--black); }
+  .badge-sale { background: var(--accent2); color: white; }
+  .badge-hot { background: var(--accent3); color: var(--black); }
+  .product-body { padding: 10px; }
+  .product-brand { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+  .product-name { font-size: 11px; font-weight: 600; color: var(--text); margin-bottom: 6px; line-height: 1.3; }
+  .product-price { font-size: 13px; font-weight: 800; color: var(--accent); }
+  .product-old-price { font-size: 10px; color: var(--muted); text-decoration: line-through; margin-left: 4px; }
+  .product-stars { font-size: 9px; color: var(--accent3); margin-top: 4px; }
+
+  /* — FLASH SALE — */
+  .flash-sale {
+    background: linear-gradient(135deg, #1a0808, #220d0d);
+    border: 1px solid rgba(255,59,59,0.25);
+    border-radius: 12px; padding: 24px; margin-top: 20px;
+    display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: center;
+  }
+  .flash-left { }
+  .flash-tag { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .flash-dot { width: 10px; height: 10px; background: var(--accent2); border-radius: 50%; animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .flash-label { font-size: 11px; font-weight: 800; color: var(--accent2); text-transform: uppercase; letter-spacing: 2px; }
+  .flash-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: var(--white); }
+  .flash-desc { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .flash-timer { display: flex; gap: 8px; align-items: center; }
+  .timer-block {
+    background: var(--dark); border: 1px solid rgba(255,59,59,0.3);
+    border-radius: 8px; padding: 10px 14px; text-align: center; min-width: 56px;
+  }
+  .timer-num { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--accent2); line-height: 1; }
+  .timer-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+  .timer-sep { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--accent2); }
+  .flash-right { }
+  .flash-product { display: flex; align-items: center; gap: 16px; }
+  .flash-img { width: 80px; height: 80px; background: #1a1f28; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 36px; }
+  .flash-product-name { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .flash-product-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--accent2); letter-spacing: 1px; }
+  .flash-product-old { font-size: 11px; color: var(--muted); text-decoration: line-through; }
+  .flash-progress { margin-top: 8px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-bottom: 4px; }
+  .progress-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 46%; background: var(--accent2); border-radius: 2px; }
+
+  /* — ACTIVITY BLOCK — */
+  .activity-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px;
+  }
+  .activity-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; cursor: pointer;
+    display: flex; align-items: center; gap: 14px;
+    transition: all 0.2s;
+  }
+  .activity-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .activity-icon { font-size: 32px; }
+  .activity-name { font-weight: 700; font-size: 13px; color: var(--white); }
+  .activity-count { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .activity-arrow { margin-left: auto; color: var(--muted); font-size: 16px; }
+
+  /* — GENDER BLOCK — */
+  .gender-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 20px;
+  }
+  .gender-card {
+    border-radius: 12px; padding: 32px 24px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    min-height: 160px; cursor: pointer; position: relative; overflow: hidden;
+  }
+  .gender-card.men { background: linear-gradient(135deg, #0d1a2e, #0f2245); border: 1px solid rgba(0,120,255,0.2); }
+  .gender-card.women { background: linear-gradient(135deg, #2e0d1a, #400f28); border: 1px solid rgba(255,60,130,0.2); }
+  .gender-card.kids { background: linear-gradient(135deg, #1a2e0d, #253d10); border: 1px solid rgba(100,220,0,0.2); }
+  .gender-emoji { font-size: 44px; position: absolute; bottom: -4px; right: 16px; opacity: 0.6; }
+  .gender-label { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 3px; }
+  .gender-card.men .gender-label { color: #60a5fa; }
+  .gender-card.women .gender-label { color: #f472b6; }
+  .gender-card.kids .gender-label { color: #86efac; }
+  .gender-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .gender-cta { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px; }
+  .gender-card.men .gender-cta { color: #60a5fa; }
+  .gender-card.women .gender-cta { color: #f472b6; }
+  .gender-card.kids .gender-cta { color: #86efac; }
+
+  /* — BRANDS — */
+  .brands-row {
+    display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; justify-content: center;
+  }
+  .brand-chip {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px 20px; cursor: pointer;
+    font-weight: 800; font-size: 12px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 1.5px;
+    transition: all 0.2s;
+  }
+  .brand-chip:hover { border-color: var(--accent); color: var(--white); }
+
+  /* — LOYALTY — */
+  .loyalty-block {
+    background: linear-gradient(135deg, #0a1f14 0%, #0d2a1c 50%, #0a1f14 100%);
+    border: 1px solid rgba(0,229,160,0.2);
+    border-radius: 14px; padding: 40px; margin-top: 20px;
+    display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center;
+  }
+  .loyalty-title { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; letter-spacing: 3px; color: var(--white); margin-bottom: 8px; }
+  .loyalty-title span { color: var(--accent); }
+  .loyalty-desc { font-size: 13px; color: var(--muted); max-width: 500px; line-height: 1.7; margin-bottom: 20px; }
+  .loyalty-tiers { display: flex; gap: 12px; margin-bottom: 24px; }
+  .tier {
+    padding: 8px 16px; border-radius: 20px; font-size: 11px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1px; border: 1px solid;
+  }
+  .tier.bronze { background: rgba(180,90,30,0.15); border-color: rgba(180,90,30,0.4); color: #cd853f; }
+  .tier.silver { background: rgba(180,180,180,0.1); border-color: rgba(180,180,180,0.3); color: #c0c0c0; }
+  .tier.gold { background: rgba(255,193,7,0.1); border-color: rgba(255,193,7,0.3); color: var(--accent3); }
+  .tier.platinum { background: rgba(0,229,160,0.1); border-color: rgba(0,229,160,0.3); color: var(--accent); }
+  .loyalty-right { text-align: center; }
+  .loyalty-points { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; letter-spacing: 4px; color: var(--accent); line-height: 1; }
+  .loyalty-points-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
+
+  /* — TRUST BLOCK — */
+  .trust-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 20px;
+  }
+  .trust-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px 16px; text-align: center;
+  }
+  .trust-icon { font-size: 28px; margin-bottom: 10px; }
+  .trust-title { font-size: 12px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .trust-desc { font-size: 10px; color: var(--muted); line-height: 1.4; }
+
+  /* — CONTENT — */
+  .content-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 20px;
+  }
+  .content-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden; cursor: pointer;
+  }
+  .content-img {
+    height: 100px; background: #1a1f28;
+    display: flex; align-items: center; justify-content: center; font-size: 36px;
+  }
+  .content-body { padding: 14px; }
+  .content-tag { font-size: 9px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
+  .content-title { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.4; }
+  .content-read { font-size: 11px; color: var(--muted); margin-top: 8px; }
+
+  /* — REVIEWS — */
+  .reviews-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 20px;
+  }
+  .review-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 18px;
+  }
+  .review-stars { color: var(--accent3); font-size: 12px; margin-bottom: 8px; }
+  .review-text { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; font-style: italic; }
+  .review-author { display: flex; align-items: center; gap: 8px; }
+  .review-avatar { width: 28px; height: 28px; background: rgba(0,229,160,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+  .review-name { font-size: 11px; font-weight: 700; color: var(--text); }
+  .review-date { font-size: 10px; color: var(--muted); }
+  .reviews-total {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 18px; text-align: center; grid-column: span 3;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+  }
+  .reviews-score { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--accent); }
+  .reviews-platform { font-size: 11px; color: var(--muted); }
+  .reviews-count { font-weight: 700; color: var(--text); }
+
+  /* — EMAIL — */
+  .email-block {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 40px; margin-top: 20px; text-align: center;
+  }
+  .email-title { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 3px; margin-bottom: 8px; }
+  .email-desc { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+  .email-form { display: flex; gap: 10px; max-width: 440px; margin: 0 auto; }
+  .email-input {
+    flex: 1; background: var(--dark); border: 1px solid var(--border);
+    border-radius: 6px; padding: 12px 16px; color: var(--text); font-size: 13px;
+  }
+  .email-input::placeholder { color: var(--muted); }
+  .email-note { font-size: 10px; color: var(--muted); margin-top: 10px; }
+
+  /* — APP — */
+  .app-block {
+    background: linear-gradient(135deg, #0d1520, #0a1020);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 32px 40px; margin-top: 20px;
+    display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap;
+  }
+  .app-left {}
+  .app-title { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 2px; margin-bottom: 8px; }
+  .app-desc { color: var(--muted); font-size: 13px; margin-bottom: 20px; max-width: 440px; }
+  .app-btns { display: flex; gap: 10px; }
+  .app-btn {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--dark); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 18px; cursor: pointer;
+  }
+  .app-btn-icon { font-size: 20px; }
+  .app-btn-sub { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .app-btn-name { font-size: 13px; font-weight: 700; color: var(--white); }
+  .app-offer { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+  .app-offer-badge { background: var(--accent); color: var(--black); font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 3px; text-transform: uppercase; }
+  .app-offer-text { font-size: 12px; color: var(--muted); }
+  .app-qr {
+    width: 100px; height: 100px; background: var(--white);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: #333; text-align: center; font-weight: 700; line-height: 1.3;
+  }
+
+  /* — UGC — */
+  .ugc-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 20px;
+  }
+  .ugc-cell {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; height: 80px;
+    display: flex; align-items: center; justify-content: center; font-size: 24px;
+    cursor: pointer; transition: border-color 0.2s;
+  }
+  .ugc-cell:hover { border-color: var(--accent); }
+
+  /* — FOOTER — */
+  .proto-footer {
+    background: #0a0a0a; border-top: 1px solid var(--border);
+    padding: 40px 0 20px;
+    margin-top: 0;
+  }
+  .footer-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 16px;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 32px; padding-bottom: 32px;
+    border-bottom: 1px solid var(--border); margin-bottom: 20px;
+  }
+  .footer-brand-desc { font-size: 12px; color: var(--muted); line-height: 1.7; margin-top: 10px; max-width: 240px; }
+  .footer-socials { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+  .social-icon {
+    width: 32px; height: 32px; background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer;
+  }
+  .footer-col-title { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--white); margin-bottom: 14px; }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 8px; }
+  .footer-links a { font-size: 12px; color: var(--muted); text-decoration: none; }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .footer-copy { font-size: 11px; color: var(--muted); }
+  .footer-legal { display: flex; gap: 16px; }
+  .footer-legal a { font-size: 11px; color: var(--muted); text-decoration: none; }
+
+  /* — SEO TEXT — */
+  .seo-block {
+    background: var(--dark); border-top: 1px solid var(--border);
+    padding: 24px 0;
+  }
+  .seo-inner { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+  .seo-title-small { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+  .seo-text { font-size: 11px; color: #3a4050; line-height: 1.8; max-height: 42px; overflow: hidden; position: relative; }
+  .seo-more { font-size: 11px; color: var(--accent); cursor: pointer; margin-top: 4px; }
+
+  /* ─── TABLE SECTION ─── */
+  .tbl-section { padding: 50px 0 40px; border-bottom: 1px solid var(--border); }
+  .col-ours { background: rgba(0,229,160,0.06) !important; }
+  th.col-ours { color: var(--accent) !important; }
+
+  /* ─── DIVIDER ─── */
+  .proto-divider {
+    text-align: center; padding: 50px 0 30px;
+    border-bottom: 1px solid var(--border);
+  }
+  .proto-divider-title { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; letter-spacing: 5px; color: var(--white); }
+  .proto-divider-title span { color: var(--accent); }
+  .proto-divider-sub { color: var(--muted); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; }
+
+  /* ─── SECTION HEADER ─── */
+  .sec-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 0; }
+  .sec-link { font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
+
+  /* ─── BLOCK INDEX ─── */
+  .block-index {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; background: rgba(0,229,160,0.12);
+    border: 1px solid rgba(0,229,160,0.3); border-radius: 6px;
+    font-size: 11px; font-weight: 800; color: var(--accent);
+    margin-right: 8px; flex-shrink: 0;
+  }
+  .block-index.red { background: rgba(255,59,59,0.12); border-color: rgba(255,59,59,0.3); color: var(--accent2); }
+  .block-index.yellow { background: rgba(255,193,7,0.12); border-color: rgba(255,193,7,0.3); color: var(--accent3); }
+
+  /* responsive */
+  @media (max-width: 768px) {
+    .proto-hero-inner { grid-template-columns: 1fr; }
+    .hero-img-placeholder { display: none; }
+    .product-grid { grid-template-columns: repeat(3, 1fr); }
+    .promo-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .trust-grid { grid-template-columns: repeat(3, 1fr); }
+    .proto-header-inner { grid-template-columns: auto 1fr; }
+    .proto-nav { display: none; }
+    .gender-grid { grid-template-columns: 1fr; }
+    .activity-grid { grid-template-columns: 1fr 1fr; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .flash-sale { grid-template-columns: 1fr; }
+    .loyalty-block { grid-template-columns: 1fr; }
+    .ugc-grid { grid-template-columns: repeat(3, 1fr); }
+    .content-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════ DOC HEADER ════════════ -->
+<div class="doc-header">
+  <div class="doc-header-inner">
+    <div class="doc-badge">UX / UI Prototype v1.0</div>
+    <h1 class="doc-title">Главная страница<br><span>Sportlandia</span></h1>
+    <div class="doc-meta">
+      <span><b>Тип:</b> Wireframe-прототип + Сводная таблица</span>
+      <span><b>Блоков:</b> 25</span>
+      <span><b>Анализ:</b> Decathlon · Sportmaster · JD Sports · Dick's · Tradeinn · REI</span>
+      <span><b>Статус:</b> Ready for Review</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ СВОДНАЯ ТАБЛИЦА ════════════ -->
+<div class="page-wrap tbl-section">
+  <div class="block-label">📊 Раздел 1</div>
+  <div class="sec-head">
+    <div>
+      <div class="section-title">Сводная таблица коммерческих блоков</div>
+      <div class="section-sub">Сравнение лидеров ниши + наш магазин — зелёный = присутствует · * = добавляем</div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:left;min-width:220px;">Блок / Элемент</th>
+          <th>Decathlon</th>
+          <th>Sportmaster</th>
+          <th>JD Sports</th>
+          <th>Dick's</th>
+          <th>Tradeinn</th>
+          <th>REI</th>
+          <th class="col-ours">Наш магазин</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="priority-high">
+          <td>0. Utility Bar (sticky)</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check-new">✦ NEW</span></td>
+        </tr>
+        <tr class="priority-high">
+          <td>1. Мегаменю + Поиск + Корзина</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check">✓</span></td>
+        </tr>
+        <tr class="priority-high">
+          <td>2. Hero Banner / Slider (3–4 слайда)</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check">✓</span></td>
+        </tr>
+        <tr class="priority-high">
+          <td>3. Быстрые иконки-категории</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td>4. Промо-баннеры 3×1</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td><span class="cross">—</span></td>
+          <td class="col-ours"><span class="check-new">✦ NEW</span></td>
+        </tr>
+        <tr class="priority-high">
+          <td>5. Хиты продаж / Bestsellers</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check-new">✦ NEW</span></td>
+        </tr>
+        <tr class="priority-high">
+          <td>6. Flash Sale + Таймер обратного отсчёта</td>
+          <td><span class="cross">—</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td class="col-ours"><span class="check-new">✦ NEW</span></td>
+        </tr>
+        <tr>
+          <td>7. Сезонный блок</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td>8. Новая коллекция (6 карточек)</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td>9. Best Price / Цены ниже рынка</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td class="col-ours"><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td>10. Персонализированный блок «Для вас»</td>
+          <td><span class="cross">—</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check">✓</span></td>
+        </tr>
+        <tr class="priority-high">
+          <td>11. Витрина брендов</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td class="col-ours"><span class="check">✓</span></td>
+        </tr>
+        <tr class="priority-high">
+          <td>12. Спорт по активности (Shop by Activity)</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check-new">✦ NEW</span></td>
+        </tr>
+        <tr class="priority-high">
+          <td>13. Мужчинам / Женщинам / Детям</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td class="col-ours"><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td>14. Аксессуары / «Завершите образ»</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td>15. Комплекты / Наборы / Сертификаты</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td><span class="cross">—</span></td>
+          <td class="col-ours"><span class="check-new">✦ NEW</span></td>
+        </tr>
+        <tr class="priority-high">
+          <td>16. Программа лояльности / Membership</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check-new">✦ NEW</span></td>
+        </tr>
+        <tr class="priority-high">
+          <td>17. Trust-блок / Почему мы (5 иконок)</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check-new">✦ NEW</span></td>
+        </tr>
+        <tr>
+          <td>18. Экспертный контент / Советы / Блог</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td><span class="cross">—</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check-new">✦ NEW</span></td>
+        </tr>
+        <tr>
+          <td>19. Мобильное приложение</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td><span class="cross">—</span></td>
+          <td class="col-ours"><span class="check-new">✦ NEW</span></td>
+        </tr>
+        <tr>
+          <td>20. UGC / Instagram-галерея</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+          <td><span class="cross">—</span></td>
+          <td class="col-ours"><span class="check-new">✦ NEW</span></td>
+        </tr>
+        <tr class="priority-high">
+          <td>21. Отзывы покупателей</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check-new">✦ NEW</span></td>
+        </tr>
+        <tr>
+          <td>22. Email / SMS подписка</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check-new">✦ NEW</span></td>
+        </tr>
+        <tr>
+          <td>23. Навигационный Footer</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td>24. SEO-текст</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td class="col-ours"><span class="check-new">✦ NEW</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note-box">
+    <span>Итог:</span> У нашего магазина в базовом варианте было 9 блоков. После анализа лидеров добавляем ещё <span>16 новых блоков (✦ NEW)</span>.
+    Финальная страница = 25 блоков. Покрытие по функционалу лидеров ниши: <span>100%</span>.
+  </div>
+</div>
+
+<!-- ════════════ PROTOTYPE DIVIDER ════════════ -->
+<div class="proto-divider">
+  <div class="proto-divider-title">Прототип<br><span>Главной Страницы</span></div>
+  <div class="proto-divider-sub">Wire-frame · Interactive Prototype · 25 блоков · Desktop View</div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PROTOTYPE STARTS
+════════════════════════════════════════ -->
+
+<!-- БЛОК 0: UTILITY BAR -->
+<div style="background:#050709;padding:6px 0;border-bottom:1px solid #1e2229;">
+  <div style="display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;padding:0 16px;gap:12px;flex-wrap:wrap;">
+    <div style="display:flex;gap:0;align-items:center;">
+      <span class="block-label" style="margin:0;border-radius:4px 0 0 4px;font-size:10px;">0</span>
+      <div class="util-items">
+        <span class="util-item"><span class="icon">🚚</span> Доставка от 1 дня</span>
+        <span class="util-item"><span class="icon">🔄</span> Возврат 30 дней</span>
+        <span class="util-item"><span class="icon">💳</span> Оплата частями</span>
+        <span class="util-item"><span class="icon">⭐</span> 4.8 / 5  ·  2 841 отзыв</span>
+      </div>
+    </div>
+    <div class="util-lang">
+      <span class="active">RU</span>
+      <span>RO</span>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 1: HEADER -->
+<div class="proto-header">
+  <div style="display:flex;align-items:center;gap:6px;max-width:1100px;margin:0 auto;padding:0 16px;">
+    <span class="block-index">1</span>
+    <div class="proto-header-inner" style="flex:1;max-width:100%;padding:0;">
+      <div class="proto-logo">SPORT<span>LANDIA</span></div>
+      <nav class="proto-nav">
+        <span class="nav-item active">Виды спорта ▾</span>
+        <span class="nav-item">Мужчинам ▾</span>
+        <span class="nav-item">Женщинам ▾</span>
+        <span class="nav-item">Детям ▾</span>
+        <span class="nav-item">Бренды ▾</span>
+        <span class="nav-item" style="color:#ff3b3b;">🔥 Sale</span>
+      </nav>
+      <div class="proto-actions">
+        <div class="search-box" style="position:relative;flex:1;min-width:200px;">
+          <span>🔍</span>
+          <span style="flex:1;color:var(--muted);">Поиск по 50 000+ товарам...</span>
+          <span title="Поиск по фото" style="cursor:pointer;padding:4px 6px;background:rgba(0,229,160,0.12);border:1px solid rgba(0,229,160,0.3);border-radius:4px;font-size:13px;display:flex;align-items:center;gap:4px;color:var(--accent);font-size:10px;font-weight:700;letter-spacing:0.5px;white-space:nowrap;">📷 По фото</span>
+        </div>
+        <div class="header-icon">❤️</div>
+        <div class="header-icon">👤</div>
+        <div class="header-icon">🛒<span class="cart-badge">3</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 2: HERO -->
+<div class="proto-hero">
+  <div class="hero-bg-accent"></div>
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+      <span class="block-index">2</span>
+      <span style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Hero Slider · 3–4 слайда · Auto 5 сек</span>
+    </div>
+  </div>
+  <div class="proto-hero-inner">
+    <div>
+      <div class="hero-tag">🆕 Новая коллекция 2026</div>
+      <h1 class="hero-title">Твой спорт.<br>Твои <span>правила.</span></h1>
+      <p class="hero-desc">Более 50 000 товаров от 200+ брендов. Официальный дистрибьютор Nike, Adidas, Puma, The North Face в Молдове и Румынии.</p>
+      <div class="hero-cta">
+        <button class="btn-primary">Смотреть коллекцию →</button>
+        <button class="btn-ghost">Все акции</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num">50K+</div><div class="hero-stat-label">Товаров</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">200+</div><div class="hero-stat-label">Брендов</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">4.8★</div><div class="hero-stat-label">Рейтинг</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="hero-img-placeholder">
+        <div class="hero-img-icon">👟</div>
+        <div class="hero-img-text">Hero Image / Product Shot</div>
+      </div>
+      <div class="hero-slides">
+        <div class="hero-slide-dot active"></div>
+        <div class="hero-slide-dot"></div>
+        <div class="hero-slide-dot"></div>
+        <div class="hero-slide-dot"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 3: БЫСТРЫЕ ИКОНКИ -->
+<div class="proto-quick-cats">
+  <div style="display:flex;align-items:center;gap:8px;max-width:1100px;margin:0 auto;padding:0 16px 12px;">
+    <span class="block-index">3</span>
+    <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Быстрые категории · 1 клик до раздела</span>
+  </div>
+  <div class="quick-cats-inner">
+    <div class="quick-cat active"><span class="quick-cat-icon">🏅</span><span class="quick-cat-label">Виды спорта</span></div>
+    <div class="quick-cat"><span class="quick-cat-icon">👨</span><span class="quick-cat-label">Мужчинам</span></div>
+    <div class="quick-cat"><span class="quick-cat-icon">👩</span><span class="quick-cat-label">Женщинам</span></div>
+    <div class="quick-cat"><span class="quick-cat-icon">👶</span><span class="quick-cat-label">Детям</span></div>
+    <div class="quick-cat"><span class="quick-cat-icon">🎒</span><span class="quick-cat-label">Аксессуары</span></div>
+    <div class="quick-cat"><span class="quick-cat-icon">💊</span><span class="quick-cat-label">Спорт. питание</span></div>
+  </div>
+</div>
+
+<!-- БЛОК 4: ПРОМО БАННЕРЫ -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index yellow">4</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Промо-баннеры 3×1 · 3 оффера для 3 сегментов</span>
+    </div>
+    <div class="promo-grid">
+      <div class="promo-banner green">
+        <div><div class="promo-title">Акция недели</div><div class="promo-desc">Скидки до −40% на беговую экипировку</div></div>
+        <div class="promo-cta">Смотреть акцию →</div>
+      </div>
+      <div class="promo-banner red">
+        <div><div class="promo-title">Новинки Adidas</div><div class="promo-desc">Весенняя коллекция 2026 уже в продаже</div></div>
+        <div class="promo-cta">Открыть коллекцию →</div>
+      </div>
+      <div class="promo-banner blue">
+        <div><div class="promo-title">Бесплатная доставка</div><div class="promo-desc">На все заказы от 300 MDL по всей Молдове</div></div>
+        <div class="promo-cta">Подробнее →</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 5: BESTSELLERS -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index">5</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Хиты продаж — социальное доказательство встроено в название</span>
+    </div>
+    <div class="sec-head">
+      <div>
+        <div class="section-title">🔥 Хиты продаж</div>
+        <div class="section-sub">Самые покупаемые товары этой недели</div>
+      </div>
+      <div class="sec-link">Все хиты →</div>
+    </div>
+    <div class="product-grid">
+      <div class="product-card"><div class="product-img">👟<span class="product-badge badge-hot">ХИТ</span></div><div class="product-body"><div class="product-brand">Nike</div><div class="product-name">Air Max 270</div><div class="product-price">700 MDL<span class="product-old-price">1 190 MDL</span></div><div class="product-stars">★★★★★ (312)</div></div></div>
+      <div class="product-card"><div class="product-img">👕<span class="product-badge badge-sale">−35%</span></div><div class="product-body"><div class="product-brand">Adidas</div><div class="product-name">Футболка Condivo 22</div><div class="product-price">175 MDL<span class="product-old-price">275 MDL</span></div><div class="product-stars">★★★★☆ (198)</div></div></div>
+      <div class="product-card"><div class="product-img">🏋️</div><div class="product-body"><div class="product-brand">Puma</div><div class="product-name">Шорты Evostripe</div><div class="product-price">255 MDL</div><div class="product-stars">★★★★★ (87)</div></div></div>
+      <div class="product-card"><div class="product-img">🧢<span class="product-badge badge-hot">ХИТ</span></div><div class="product-body"><div class="product-brand">Under Armour</div><div class="product-name">Кепка Blitzing 3.0</div><div class="product-price">155 MDL</div><div class="product-stars">★★★★★ (241)</div></div></div>
+      <div class="product-card"><div class="product-img">🧤</div><div class="product-body"><div class="product-brand">Nike</div><div class="product-name">Перчатки GK Match</div><div class="product-price">295 MDL<span class="product-old-price">440 MDL</span></div><div class="product-stars">★★★★☆ (55)</div></div></div>
+      <div class="product-card"><div class="product-img">🎾</div><div class="product-body"><div class="product-brand">Wilson</div><div class="product-name">Ракетка Clash 100</div><div class="product-price">1 590 MDL</div><div class="product-stars">★★★★★ (44)</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 6: FLASH SALE -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index red">6</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Flash Sale · FOMO-механика · Таймер + прогресс-бар остатка</span>
+    </div>
+    <div class="flash-sale">
+      <div class="flash-left">
+        <div class="flash-tag"><div class="flash-dot"></div><span class="flash-label">Предложение дня</span></div>
+        <div class="flash-title">Только сегодня</div>
+        <div class="flash-desc">Успей купить до конца акции</div>
+      </div>
+      <div class="flash-timer">
+        <div class="timer-block"><div class="timer-num">02</div><div class="timer-label">часа</div></div>
+        <div class="timer-sep">:</div>
+        <div class="timer-block"><div class="timer-num">14</div><div class="timer-label">мин</div></div>
+        <div class="timer-sep">:</div>
+        <div class="timer-block"><div class="timer-num">37</div><div class="timer-label">сек</div></div>
+      </div>
+      <div class="flash-right">
+        <div class="flash-product">
+          <div class="flash-img">👟</div>
+          <div>
+            <div class="flash-product-name">Nike Air Max 270</div>
+            <div class="flash-product-price">700 MDL</div>
+            <div class="flash-product-old">Было: 1 190 MDL · Скидка 42%</div>
+            <div class="flash-progress">
+              <div class="progress-label"><span>Продано: 27 из 50</span><span>Осталось: 23 шт</span></div>
+              <div class="progress-bar"><div class="progress-fill"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 7: СЕЗОННЫЙ -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index yellow">7</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Сезонный блок · Меняется ежемесячно · Текущий: Весна 2026</span>
+    </div>
+    <div style="background:linear-gradient(135deg,#0d1a2e,#102040);border:1px solid rgba(0,100,255,0.2);border-radius:12px;padding:28px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:10px;color:#60a5fa;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">🌸 Весенний сезон</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:3px;color:var(--white);">Готовься к весне</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">Актуальные товары для бега, велоспорта и активного отдыха</div>
+      </div>
+      <button class="btn-primary">Смотреть всё →</button>
+    </div>
+    <div class="product-grid">
+      <div class="product-card"><div class="product-img">🏃</div><div class="product-body"><div class="product-brand">Asics</div><div class="product-name">Кроссовки Gel-Nimbus</div><div class="product-price">1 390 MDL</div></div></div>
+      <div class="product-card"><div class="product-img">🚴</div><div class="product-body"><div class="product-brand">Shimano</div><div class="product-name">Велоперчатки</div><div class="product-price">175 MDL</div></div></div>
+      <div class="product-card"><div class="product-img">🎽</div><div class="product-body"><div class="product-brand">Nike</div><div class="product-name">Футболка Dri-FIT</div><div class="product-price">255 MDL</div></div></div>
+      <div class="product-card"><div class="product-img">💧</div><div class="product-body"><div class="product-brand">Hydro Flask</div><div class="product-name">Бутылка 1L</div><div class="product-price">490 MDL</div></div></div>
+      <div class="product-card"><div class="product-img">🩳</div><div class="product-body"><div class="product-brand">Adidas</div><div class="product-name">Шорты Run It</div><div class="product-price">295 MDL<span class="product-old-price">415 MDL</span></div></div></div>
+      <div class="product-card"><div class="product-img">🧴</div><div class="product-body"><div class="product-brand">Compeed</div><div class="product-name">Пластыри для бега</div><div class="product-price">77 MDL</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 8: НОВАЯ КОЛЛЕКЦИЯ -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index">8</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Новая коллекция · Лейбл NEW + дата добавления</span>
+    </div>
+    <div class="sec-head">
+      <div><div class="section-title">🆕 Новая коллекция</div><div class="section-sub">Появились на этой неделе · Spring/Summer 2026</div></div>
+      <div class="sec-link">Вся коллекция →</div>
+    </div>
+    <div class="product-grid" style="margin-top:16px;">
+      <div class="product-card"><div class="product-img">👟<span class="product-badge badge-new">NEW</span></div><div class="product-body"><div class="product-brand">Nike</div><div class="product-name">React Infinity Run 4</div><div class="product-price">1 790 MDL</div><div class="product-stars" style="color:var(--muted);font-size:9px;">Добавлен 2 дня назад</div></div></div>
+      <div class="product-card"><div class="product-img">🧥<span class="product-badge badge-new">NEW</span></div><div class="product-body"><div class="product-brand">The North Face</div><div class="product-name">Куртка Summit</div><div class="product-price">3 190 MDL</div><div class="product-stars" style="color:var(--muted);font-size:9px;">Добавлен 3 дня назад</div></div></div>
+      <div class="product-card"><div class="product-img">🎿<span class="product-badge badge-new">NEW</span></div><div class="product-body"><div class="product-brand">Salomon</div><div class="product-name">Ботинки X-Ultra 4</div><div class="product-price">2 490 MDL</div><div class="product-stars" style="color:var(--muted);font-size:9px;">Добавлен 5 дней назад</div></div></div>
+      <div class="product-card"><div class="product-img">🏊<span class="product-badge badge-new">NEW</span></div><div class="product-body"><div class="product-brand">Speedo</div><div class="product-name">Очки Fastskin</div><div class="product-price">655 MDL</div></div></div>
+      <div class="product-card"><div class="product-img">🎽<span class="product-badge badge-new">NEW</span></div><div class="product-body"><div class="product-brand">Gymshark</div><div class="product-name">Леггинсы Adapt</div><div class="product-price">895 MDL</div></div></div>
+      <div class="product-card"><div class="product-img">⛷️<span class="product-badge badge-new">NEW</span></div><div class="product-body"><div class="product-brand">Atomic</div><div class="product-name">Шлем Redster</div><div class="product-price">1 390 MDL</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 9: BEST PRICE -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index yellow">9</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Best Price → переименовано: «Выгода до −50%» · Конкретика конвертирует</span>
+    </div>
+    <div class="sec-head">
+      <div><div class="section-title">💰 Выгода до −50%</div><div class="section-sub">Лучшие цены на проверенные товары</div></div>
+      <div class="sec-link">Все выгодные →</div>
+    </div>
+    <div class="product-grid" style="margin-top:16px;">
+      <div class="product-card"><div class="product-img">👟<span class="product-badge badge-sale">−50%</span></div><div class="product-body"><div class="product-brand">Puma</div><div class="product-name">RS-X Reinvention</div><div class="product-price">495 MDL<span class="product-old-price">990 MDL</span></div></div></div>
+      <div class="product-card"><div class="product-img">🏋️<span class="product-badge badge-sale">−40%</span></div><div class="product-body"><div class="product-brand">Reebok</div><div class="product-name">Штанга 20кг</div><div class="product-price">795 MDL<span class="product-old-price">1 315 MDL</span></div></div></div>
+      <div class="product-card"><div class="product-img">⚽<span class="product-badge badge-sale">−35%</span></div><div class="product-body"><div class="product-brand">Adidas</div><div class="product-name">Мяч Tiro League</div><div class="product-price">175 MDL<span class="product-old-price">275 MDL</span></div></div></div>
+      <div class="product-card"><div class="product-img">🎒<span class="product-badge badge-sale">−45%</span></div><div class="product-body"><div class="product-brand">Osprey</div><div class="product-name">Рюкзак Stratos 26</div><div class="product-price">1 195 MDL<span class="product-old-price">2 195 MDL</span></div></div></div>
+      <div class="product-card"><div class="product-img">🧘<span class="product-badge badge-sale">−30%</span></div><div class="product-body"><div class="product-brand">Lululemon</div><div class="product-name">Коврик для йоги</div><div class="product-price">435 MDL<span class="product-old-price">635 MDL</span></div></div></div>
+      <div class="product-card"><div class="product-img">🏸<span class="product-badge badge-sale">−25%</span></div><div class="product-body"><div class="product-brand">Yonex</div><div class="product-name">Ракетка Astrox 77</div><div class="product-price">1 295 MDL<span class="product-old-price">1 735 MDL</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 10: ДЛЯ ВАС -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index">10</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Персонализация · Авт. = история просмотров / Гость = топ региона</span>
+    </div>
+    <div class="sec-head">
+      <div><div class="section-title">🎯 Рекомендуем для вас</div><div class="section-sub">На основе ваших предпочтений · Популярное в вашем регионе</div></div>
+      <div class="sec-link">Настроить вкусы →</div>
+    </div>
+    <div class="product-grid" style="margin-top:16px;">
+      <div class="product-card"><div class="product-img">🏃</div><div class="product-body"><div class="product-brand">Asics</div><div class="product-name">Gel-Kayano 30</div><div class="product-price">1 890 MDL</div><div class="product-stars">★★★★★ (156)</div></div></div>
+      <div class="product-card"><div class="product-img">📱</div><div class="product-body"><div class="product-brand">Garmin</div><div class="product-name">Часы Forerunner 265</div><div class="product-price">4 990 MDL</div><div class="product-stars">★★★★★ (89)</div></div></div>
+      <div class="product-card"><div class="product-img">🧃</div><div class="product-body"><div class="product-brand">Optimum Nutrition</div><div class="product-name">Протеин Gold Standard</div><div class="product-price">795 MDL</div><div class="product-stars">★★★★☆ (221)</div></div></div>
+      <div class="product-card"><div class="product-img">🎽</div><div class="product-body"><div class="product-brand">Under Armour</div><div class="product-name">Компрессионная футболка</div><div class="product-price">455 MDL</div><div class="product-stars">★★★★★ (67)</div></div></div>
+      <div class="product-card"><div class="product-img">🎧</div><div class="product-body"><div class="product-brand">Jabra</div><div class="product-name">Elite 8 Active</div><div class="product-price">2 390 MDL</div><div class="product-stars">★★★★★ (134)</div></div></div>
+      <div class="product-card"><div class="product-img">🧢</div><div class="product-body"><div class="product-brand">Salomon</div><div class="product-name">Кепка XA</div><div class="product-price">395 MDL</div><div class="product-stars">★★★★☆ (48)</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 11: АКТИВНОСТИ -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index">11</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Shop by Activity · Навигация по образу жизни, а не по типу товара</span>
+    </div>
+    <div class="sec-head">
+      <div><div class="section-title">⚡ Выбери свой вид спорта</div><div class="section-sub">Всё необходимое для вашей активности в одном месте</div></div>
+    </div>
+    <div class="activity-grid">
+      <div class="activity-card"><div class="activity-icon">🏃</div><div><div class="activity-name">Бег</div><div class="activity-count">3 240 товаров</div></div><div class="activity-arrow">›</div></div>
+      <div class="activity-card"><div class="activity-icon">🏋️</div><div><div class="activity-name">Фитнес и зал</div><div class="activity-count">5 120 товаров</div></div><div class="activity-arrow">›</div></div>
+      <div class="activity-card"><div class="activity-icon">⚽</div><div><div class="activity-name">Командные виды</div><div class="activity-count">2 890 товаров</div></div><div class="activity-arrow">›</div></div>
+      <div class="activity-card"><div class="activity-icon">🚴</div><div><div class="activity-name">Велоспорт</div><div class="activity-count">1 740 товаров</div></div><div class="activity-arrow">›</div></div>
+      <div class="activity-card"><div class="activity-icon">🧘</div><div><div class="activity-name">Йога / Пилатес</div><div class="activity-count">890 товаров</div></div><div class="activity-arrow">›</div></div>
+      <div class="activity-card"><div class="activity-icon">⛰️</div><div><div class="activity-name">Туризм / Горы</div><div class="activity-count">2 150 товаров</div></div><div class="activity-arrow">›</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 13: ГЕНДЕР -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index">13</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Гендерная сегментация · 3 аудитории = 3 destination</span>
+    </div>
+    <div class="gender-grid">
+      <div class="gender-card men"><div><div class="gender-label">Мужчинам</div><div class="gender-sub">Одежда, обувь, снаряжение</div><div class="gender-cta">Смотреть коллекцию →</div></div><div class="gender-emoji">👨</div></div>
+      <div class="gender-card women"><div><div class="gender-label">Женщинам</div><div class="gender-sub">Стиль, функциональность, комфорт</div><div class="gender-cta">Смотреть коллекцию →</div></div><div class="gender-emoji">👩</div></div>
+      <div class="gender-card kids"><div><div class="gender-label">Детям</div><div class="gender-sub">Безопасно, практично, ярко</div><div class="gender-cta">Смотреть коллекцию →</div></div><div class="gender-emoji">👶</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 13: БРЕНДЫ -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index">13</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Витрина брендов · Каждый бренд = SEO-landing · «Официальный дистрибьютор»</span>
+    </div>
+    <div class="sec-head">
+      <div><div class="section-title">🏷️ Наши бренды</div><div class="section-sub">Официальный дистрибьютор · Только оригинальные товары</div></div>
+      <div class="sec-link">Все 200+ брендов →</div>
+    </div>
+    <div class="brands-row">
+      <div class="brand-chip">Nike</div>
+      <div class="brand-chip">Adidas</div>
+      <div class="brand-chip">Puma</div>
+      <div class="brand-chip">Under Armour</div>
+      <div class="brand-chip">The North Face</div>
+      <div class="brand-chip">Salomon</div>
+      <div class="brand-chip">Asics</div>
+      <div class="brand-chip">Reebok</div>
+      <div class="brand-chip">Columbia</div>
+      <div class="brand-chip">Hummel</div>
+      <div class="brand-chip">Wilson</div>
+      <div class="brand-chip">Gymshark</div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 14: АКСЕССУАРЫ -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index">14</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Аксессуары → «Завершите образ» · Lifestyle-формула повышает CTR</span>
+    </div>
+    <div class="sec-head">
+      <div><div class="section-title">🎒 Завершите образ</div><div class="section-sub">Аксессуары, которые делают разницу</div></div>
+      <div class="sec-link">Все аксессуары →</div>
+    </div>
+    <div class="product-grid" style="margin-top:16px;">
+      <div class="product-card"><div class="product-img">🧢</div><div class="product-body"><div class="product-brand">Nike</div><div class="product-name">Кепка Dri-FIT</div><div class="product-price">175 MDL</div></div></div>
+      <div class="product-card"><div class="product-img">🧤</div><div class="product-body"><div class="product-brand">Adidas</div><div class="product-name">Перчатки Training</div><div class="product-price">135 MDL</div></div></div>
+      <div class="product-card"><div class="product-img">🧦</div><div class="product-body"><div class="product-brand">Stance</div><div class="product-name">Носки Icon Quarter</div><div class="product-price">115 MDL</div></div></div>
+      <div class="product-card"><div class="product-img">⌚</div><div class="product-body"><div class="product-brand">Polar</div><div class="product-name">Пульсометр H10</div><div class="product-price">995 MDL</div></div></div>
+      <div class="product-card"><div class="product-img">💧</div><div class="product-body"><div class="product-brand">Nalgene</div><div class="product-name">Бутылка 1L</div><div class="product-price">255 MDL</div></div></div>
+      <div class="product-card"><div class="product-img">🔦</div><div class="product-body"><div class="product-brand">Black Diamond</div><div class="product-name">Фонарь Spot 400</div><div class="product-price">595 MDL</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 15: КОМПЛЕКТЫ -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index yellow">15</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Комплекты · AOV +20–35% · Наборы новичка = отдельная аудитория</span>
+    </div>
+    <div class="promo-grid">
+      <div class="promo-banner green" style="min-height:100px;">
+        <div><div class="promo-title">🎁 Комплекты</div><div class="promo-desc">Собери набор и сэкономь до 20%</div></div>
+        <div class="promo-cta">Смотреть комплекты →</div>
+      </div>
+      <div class="promo-banner blue" style="min-height:100px;">
+        <div><div class="promo-title">📦 Для новичка</div><div class="promo-desc">Всё необходимое для старта в одном наборе</div></div>
+        <div class="promo-cta">Выбрать набор →</div>
+      </div>
+      <div class="promo-banner red" style="min-height:100px;">
+        <div><div class="promo-title">🏆 Сертификаты</div><div class="promo-desc">Подари спорт близкому человеку</div></div>
+        <div class="promo-cta">Купить сертификат →</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 16: ЛОЯЛЬНОСТЬ -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index">16</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Программа лояльности · LTV клиентов выше на 60–70% · 4 уровня</span>
+    </div>
+    <div class="loyalty-block">
+      <div>
+        <div class="loyalty-title">Клуб <span>Sportlandia</span></div>
+        <div class="loyalty-desc">
+          Присоединиться просто: <strong style="color:var(--accent);">зарегистрируйся</strong> на сайте, 
+          <strong style="color:var(--accent);">соверши первую покупку</strong> и получи сразу 
+          <strong style="color:var(--accent);">200 приветственных баллов</strong> на счёт.<br>
+          <span style="margin-top:6px;display:block;">1 балл = 1 лей MDL. Баллы можно тратить на следующие заказы.</span>
+        </div>
+        <div style="background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:14px 18px;margin:16px 0;display:flex;align-items:center;gap:16px;">
+          <div style="font-size:28px;">🎁</div>
+          <div>
+            <div style="font-weight:800;color:var(--white);font-size:14px;">Как получить 200 баллов (= 200 леев):</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">① Зарегистрируйся → ② Соверши первую покупку → ③ Получи 200 баллов автоматически</div>
+          </div>
+        </div>
+        <div class="loyalty-tiers">
+          <div class="tier bronze">🥉 Бронза</div>
+          <div class="tier silver">🥈 Серебро</div>
+          <div class="tier gold">🥇 Золото</div>
+          <div class="tier platinum">💎 Платина</div>
+        </div>
+        <button class="btn-primary">Зарегистрироваться →</button>
+        <button class="btn-ghost" style="margin-left:10px;">Уже участвую</button>
+      </div>
+      <div class="loyalty-right">
+        <div class="loyalty-points">200</div>
+        <div class="loyalty-points-label" style="margin-top:4px;">баллов при первой покупке</div>
+        <div style="margin-top:12px;font-size:11px;color:var(--muted);">1 балл = 1 лей MDL</div>
+        <div style="margin-top:8px;font-size:11px;color:var(--muted);">= <span style="color:var(--accent);font-weight:800;">200 леев</span> в подарок</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 17: TRUST -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index">17</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Trust-блок · 5 главных возражений закрыты · Baymard: 58% смотрят возврат до покупки</span>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card"><div class="trust-icon">🚚</div><div class="trust-title">Доставка 1–3 дня</div><div class="trust-desc">По всей стране. Бесплатно от 300 MDL</div></div>
+      <div class="trust-card"><div class="trust-icon">🔄</div><div class="trust-title">Возврат 30 дней</div><div class="trust-desc">Без объяснения причин</div></div>
+      <div class="trust-card"><div class="trust-icon">✅</div><div class="trust-title">Только оригиналы</div><div class="trust-desc">Официальный дистрибьютор 200+ брендов</div></div>
+      <div class="trust-card"><div class="trust-icon">💬</div><div class="trust-title">Поддержка 24/7</div><div class="trust-desc">Чат, телефон, email</div></div>
+      <div class="trust-card"><div class="trust-icon">🔒</div><div class="trust-title">Безопасная оплата</div><div class="trust-desc">SSL, Visa, MC, Apple Pay</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 19: ПРИЛОЖЕНИЕ -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index">19</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Мобильное приложение · App-пользователи конвертируют в 3× лучше</span>
+    </div>
+    <div class="app-block">
+      <div class="app-left">
+        <div class="app-title">📱 Спорт в кармане</div>
+        <div class="app-desc">Заказывай быстрее, отслеживай доставку, получай персональные предложения. Приложение доступно для iOS и Android.</div>
+        <div class="app-btns">
+          <div class="app-btn"><div class="app-btn-icon">🍎</div><div><div class="app-btn-sub">Доступно в</div><div class="app-btn-name">App Store</div></div></div>
+          <div class="app-btn"><div class="app-btn-icon">🤖</div><div><div class="app-btn-sub">Доступно в</div><div class="app-btn-name">Google Play</div></div></div>
+        </div>
+        <div class="app-offer"><span class="app-offer-badge">−10%</span><span class="app-offer-text">на первый заказ через приложение</span></div>
+      </div>
+      <div class="app-qr">QR<br>код<br>скачать</div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 20: UGC -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index">20</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">UGC / Instagram · Реальные фото покупателей · Конверсия UGC-блока +29%</span>
+    </div>
+    <div class="sec-head">
+      <div><div class="section-title">📸 Спорт в вашей жизни</div><div class="section-sub">Фото наших покупателей · #SportlandiaMD</div></div>
+      <div class="sec-link">Подписаться →</div>
+    </div>
+    <div class="ugc-grid">
+      <div class="ugc-cell">🏃</div>
+      <div class="ugc-cell">⚽</div>
+      <div class="ugc-cell">🚴</div>
+      <div class="ugc-cell">🧘</div>
+      <div class="ugc-cell">🏋️</div>
+      <div class="ugc-cell">⛷️</div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 21: ОТЗЫВЫ -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index">21</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Отзывы · Независимая платформа = доверие · Рейтинг + количество</span>
+    </div>
+    <div class="sec-head">
+      <div><div class="section-title">⭐ Что говорят покупатели</div><div class="section-sub">Реальные отзывы верифицированных покупателей</div></div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">«Заказал кроссовки Nike, пришли за 2 дня. Упаковка отличная, товар оригинальный. Буду заказывать снова!»</div><div class="review-author"><div class="review-avatar">А</div><div><div class="review-name">Андрей М.</div><div class="review-date">15 февраля 2026</div></div></div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">«Уже третий раз покупаю здесь. Всегда оригинал, цены честные. Менеджер помог с выбором размера — очень внимательно.»</div><div class="review-author"><div class="review-avatar">М</div><div><div class="review-name">Мария К.</div><div class="review-date">12 февраля 2026</div></div></div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">«Возврат прошёл без проблем, деньги вернули за 3 дня. Очень приятно работать с таким магазином. Рекомендую!»</div><div class="review-author"><div class="review-avatar">И</div><div><div class="review-name">Игорь Т.</div><div class="review-date">8 февраля 2026</div></div></div></div>
+      <div class="reviews-total">
+        <div><div class="reviews-score">★ 4.8</div><div class="reviews-platform" style="margin-top:4px;">Trustpilot Verified</div></div>
+        <div style="width:1px;height:40px;background:var(--border);"></div>
+        <div><div class="reviews-count" style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--white);">2 841</div><div class="reviews-platform">верифицированных отзыва</div></div>
+        <div style="width:1px;height:40px;background:var(--border);"></div>
+        <div><div class="reviews-count" style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);">98%</div><div class="reviews-platform">рекомендуют нас друзьям</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 18: КОНТЕНТ / СОВЕТЫ ЭКСПЕРТА -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index">18</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Экспертный контент · E-E-A-T для Google · Статья → Категория → Покупка</span>
+    </div>
+    <div class="sec-head">
+      <div><div class="section-title">📰 Советы эксперта</div><div class="section-sub">Выбирай осознанно — покупай правильно</div></div>
+      <div class="sec-link">Все статьи →</div>
+    </div>
+    <div class="content-grid">
+      <div class="content-card"><div class="content-img">🏃</div><div class="content-body"><div class="content-tag">Бег</div><div class="content-title">Как выбрать кроссовки для бега: полное руководство 2026</div><div class="content-read">Читать 5 мин →</div></div></div>
+      <div class="content-card"><div class="content-img">🏋️</div><div class="content-body"><div class="content-tag">Фитнес</div><div class="content-title">ТОП-10 упражнений для домашней тренировки без оборудования</div><div class="content-read">Читать 7 мин →</div></div></div>
+      <div class="content-card"><div class="content-img">🏔️</div><div class="content-body"><div class="content-tag">Туризм</div><div class="content-title">Что взять в горный поход: чек-лист снаряжения</div><div class="content-read">Читать 6 мин →</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- БЛОК 22: EMAIL -->
+<div class="section">
+  <div class="page-wrap">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="block-index">22</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Email-подписка · ROI $36–42 на каждый $1 · Скидка = конверсия подписки в покупку</span>
+    </div>
+    <div class="email-block">
+      <div class="email-title">📩 Первым узнавай об акциях</div>
+      <div class="email-desc">Подпишись и получи скидку −10% на первый заказ. Только актуальные предложения, без спама.</div>
+      <div class="email-form">
+        <input class="email-input" type="email" placeholder="Введи свой email...">
+        <button class="btn-primary">Получить −10%</button>
+      </div>
+      <div class="email-note">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности. Отписка в 1 клик.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SEO TEXT -->
+<div class="seo-block">
+  <div class="seo-inner">
+    <div class="seo-title-small">О магазине</div>
+    <div class="seo-text">Sportlandia — интернет-магазин спортивных товаров с доставкой по Молдове и Румынии. В нашем каталоге более 50 000 товаров от 200+ ведущих брендов: Nike, Adidas, Puma, The North Face, Salomon, Asics и других. Мы являемся официальным дистрибьютором и гарантируем оригинальность каждого товара. Купить спортивную одежду, обувь и снаряжение по лучшим ценам с доставкой 1–3 дня.</div>
+    <div class="seo-more">Читать далее ↓</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="proto-footer">
+  <div class="footer-inner">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+      <span class="block-index">23</span>
+      <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Навигационный Footer · 5 колонок + соцсети + юридика</span>
+    </div>
+    <div class="footer-top">
+      <div>
+        <div class="proto-logo" style="font-size:1.4rem;">SPORT<span style="color:var(--accent);">LANDIA</span></div>
+        <div class="footer-brand-desc">Официальный дистрибьютор ведущих спортивных брендов. Молдова и Румыния.</div>
+        <div class="footer-socials">
+          <div class="social-icon">📘</div>
+          <div class="social-icon">📸</div>
+          <div class="social-icon">✈️</div>
+          <div class="social-icon">▶️</div>
+          <div class="social-icon">🎵</div>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Покупателям</div>
+        <ul class="footer-links">
+          <li><a href="#">Как сделать заказ</a></li>
+          <li><a href="#">Доставка и оплата</a></li>
+          <li><a href="#">Возврат и обмен</a></li>
+          <li><a href="#">Гарантия оригинала</a></li>
+          <li><a href="#">Подарочные сертификаты</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Каталог</div>
+        <ul class="footer-links">
+          <li><a href="#">Мужчинам</a></li>
+          <li><a href="#">Женщинам</a></li>
+          <li><a href="#">Детям</a></li>
+          <li><a href="#">Аксессуары</a></li>
+          <li><a href="#">Спортивное питание</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Компания</div>
+        <ul class="footer-links">
+          <li><a href="#">О нас</a></li>
+          <li><a href="#">Блог / Советы</a></li>
+          <li><a href="#">Партнёрам</a></li>
+          <li><a href="#">Вакансии</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Клуб лояльности</div>
+        <ul class="footer-links">
+          <li><a href="#">Как это работает</a></li>
+          <li><a href="#">Уровни и привилегии</a></li>
+          <li><a href="#">Мой аккаунт</a></li>
+          <li><a href="#">Акции и скидки</a></li>
+          <li><a href="#">Приложение</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Sportlandia. Все права защищены.</div>
+      <div class="footer-legal">
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Публичная оферта</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
